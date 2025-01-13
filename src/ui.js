@@ -32,11 +32,11 @@ export const showApp = () => {
   app.style.display = 'block'
 }
 
-export const hideLoginError = () => {
-  divLoginError.style.display = 'none'
+// export const hideLoginError = () => {
+//   divLoginError.style.display = 'none'
 
-  lblLoginErrorMessage.innerHTML = ''
-}
+//   lblLoginErrorMessage.innerHTML = ''
+// }
 
 export const showLoginError = (error) => {
   divLoginError.style.display = 'block'    

@@ -60,6 +60,7 @@ auth.useDeviceLanguage();
 
 const provider = new GoogleAuthProvider();
 
+
 const loginEmailPassword = async () =>{
     const loginEmail = txtEmail.value;
 
@@ -68,6 +69,7 @@ const loginEmailPassword = async () =>{
     try{
         await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
 
+        // redirectToHome();
         // console.log(userCredential.user);
     }
     catch(error){
@@ -84,7 +86,8 @@ const createAccount = async () => {
     const password = txtPassword.value
   
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
+      await createUserWithEmailAndPassword(auth, email, password);
+      // redirectToHome();
     }
     catch(error) {
       console.log(`There was an error: ${error}`)
@@ -96,7 +99,8 @@ const googleLogin = async() =>{
     try{
         const userCredential = await signInWithPopup(auth, provider);
 
-        console.log(userCredential.user);
+        // console.log(userCredential.user);
+        // redirectToHome();
     }
     catch(error){
         console.log(error)
@@ -105,32 +109,105 @@ const googleLogin = async() =>{
     }
 }
 
+// onAuthStateChanged((user) => {
+//   if(user){
+//     window.location.href='../src/main.html';
+//   }
+//   else{
+//     showLoginForm()
+
+//     lblAuthState.innerHTML = `You're not logged in.`
+//   }
+// })
   
 // Monitor auth state
 const monitorAuthState = async () => {
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        console.log(user)
+    // onAuthStateChanged(auth, user => {
+    //   if (user) {
+    //     console.log(user)
 
-        showApp()
+    //     showApp()
         
-        showLoginState(user)
+    //     showLoginState(user)
   
-        hideLoginError()
-      }
-      else {
-        showLoginForm()
+    //     hideLoginError()
+
+    //     redirectToHome()
+    //   }
+    //   else {
+    //     showLoginForm()
         
+    //     lblAuthState.innerHTML = `You're not logged in.`
+    //   }
+    // })
+    onAuthStateChanged(auth, user => {
+      if(user){
+        window.location.href="../src/power.html";
+      }
+      else{
+        showLoginForm()
+    
         lblAuthState.innerHTML = `You're not logged in.`
       }
     })
 }
   
+
   // Log out
 const logout = async () => {
     await signOut(auth);
 }
-  
+
+// import { getFirestore, setDoc, doc, onSnapshot, collection } from 'firebase/firestore';
+
+// const firestore = getFirestore();
+
+// const locomotives = doc(firestore, 'locomotives/mylocomotives');
+
+// async function addLocomotives(){
+//   const locomotiveData = {
+//     locomotivedescription: 'good price',
+
+//     locomotiveid: 0,
+    
+//     locomotiveprice: 1, 
+//   };
+//   try{
+//     await setDoc(locomotives, locomotiveData, {merge:true});
+
+//     console.log('bruh');
+//   }
+//   catch(error){
+//    console.log('no acccount?');
+//   }
+// }
+
+// function listenToADocument(){
+//   onSnapshot(locomotives, (docSnapshot) => {
+//     if(docSnapshot.exists()){
+//       const docData = docSnapshot.data();
+
+//       console.log(`In realtime, docData is ${JSON.stringify(docData)}`);
+//     }
+//   });
+// }
+
+// async function querryForDocuments(){
+//   const locomotiveQuerry = query(
+//     collection(firestore, 'locomotives'),
+//     where('price', '==', '1'),
+//     limit(10)
+//   );
+
+//   onSnapshot(locomotiveQuerry, (querySnapshot) => {
+//     console.log(JSON.stringify(querySnapshot.docs.map((e) => e.data())));
+//   });
+// }
+
+// addLocomotives();
+
+// listenToADocument();
+
 btnLogin.addEventListener("click", loginEmailPassword)
 
 btnSignup.addEventListener("click", createAccount)
@@ -142,3 +219,5 @@ btnGoogle.addEventListener("click", googleLogin)
 // connectAuthEmulator(auth, "http://localhost:9099");
   
 monitorAuthState();
+
+// onAuthStateChanged();
